@@ -1,4 +1,6 @@
 import React from 'react';
+import { LayoutAnimation } from 'react-native';
+import Meteor, { Accounts, createContainer } from 'react-native-meteor';
 import {
   Text,
   TextInput,
@@ -16,16 +18,25 @@ class Signin extends React.Component {
     this._onPressButton = this._onPressButton.bind(this);
   }
 
-  setEmail(text) {
-    this.setState({ email: text });
+  setEmail(email) {
+    this.setState({ email: email });
   }
 
   setPassword(password) {
-    this.setState({ password: text });
+    this.setState({ password: password });
   }
 
   _onPressButton() {
-
+    const { email, password } = this.state;
+    if (!email || !password){
+      return this.setState({error: 'Invalid data...'});
+    }
+    Meteor.loginWithPassword(email, password, (err) => {
+      if (err) {
+       return this.setState({ error: err.reason });
+      }
+      this.setState({ error: null });
+    });
   }
 
   render() {
@@ -34,8 +45,10 @@ class Signin extends React.Component {
       borderColor: 'gray',
       borderWidth: 1
     }
+    const { error } = this.state;
     return (
       <View>
+        {error? <Text>{error}</Text> : null}
           <Text>
             Enter email
           </Text>
@@ -55,6 +68,7 @@ class Signin extends React.Component {
           <TouchableHighlight onPress={this._onPressButton}>
             <Text> Submit </Text>
           </TouchableHighlight>
+          {Meteor.user() ? <Text>Meteor.userId()</Text>: null}
       </View>
     );
   }

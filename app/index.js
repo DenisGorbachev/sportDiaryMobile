@@ -5,7 +5,9 @@ import { Text } from 'react-native';
 import Signin from './components/signin';
 
 // Meteor.connect(settings.METEOR_URL);
-Meteor.connect('ws://localhost:3000/websocket')
+// Meteor.connect('ws://localhost:3000/websocket', { autoReconnect: true })
+Meteor.connect('ws://192.168.31.11:3000/websocket', { autoReconnect: true })
+
 
 class App extends React.Component {
     constructor(props) {
@@ -14,8 +16,9 @@ class App extends React.Component {
     }
     render() {
       const { status, user, loggingIn } = this.props;
-      if (status.connected === false || loggingIn) {
+      // if (status.connected === false || loggingIn) {
         // return <Text>connecting...</Text>
+      if (!Meteor.user()) {
         return <Signin />
       }
         return <Text>{this.props.status.status}!!!</Text>;
