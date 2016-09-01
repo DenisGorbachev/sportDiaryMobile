@@ -26,7 +26,11 @@ class PeriodsList extends React.Component {
       <View>
         <Text>Periods List</Text>
         <Text>You have </Text>
-        {periods.map (p => (<Text>{moment(p.startsAt).format("DD:MM:YYYY")}</Text>))}
+        {periods.map (p => (
+          <Text>
+            {moment(p.startsAt).format("DD:MM:YYYY")}
+              - {moment(p.endsAt).format("DD:MM:YYYY")}
+          </Text>))}
         <TouchableHighlight onPress={ this._navigate }>
           <Text>Create New Period</Text>
         </TouchableHighlight>
