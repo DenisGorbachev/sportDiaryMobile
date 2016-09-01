@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import moment from 'momentjs';
 import  Meteor, { createContainer } from 'react-native-meteor';
 import TabNavigator from 'react-native-tab-navigator';
 import NewPeriod from './new-period.js';
@@ -20,10 +21,12 @@ class PeriodsList extends React.Component {
   }
 
   render() {
+    const { periods } = this.props;
     return (
       <View>
         <Text>Periods List</Text>
-        <Text>You have {this.props.periods.length} </Text>
+        <Text>You have </Text>
+        {periods.map (p => (<Text>{moment(p.startsAt).format("DD:MM:YYYY")}</Text>))}
         <TouchableHighlight onPress={ this._navigate }>
           <Text>Create New Period</Text>
         </TouchableHighlight>
