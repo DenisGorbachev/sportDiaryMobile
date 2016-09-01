@@ -3,10 +3,10 @@ import Meteor, { createContainer } from 'react-native-meteor';
 // import settings from './config/settings';
 import { Text } from 'react-native';
 import Signin from './components/signin';
-
+import Periods from './layouts/periodsLayout/periods.js'
 // Meteor.connect(settings.METEOR_URL);
 // Meteor.connect('ws://localhost:3000/websocket', { autoReconnect: true })
-Meteor.connect('ws://192.168.31.11:3000/websocket', { autoReconnect: true })
+Meteor.connect('ws://192.168.1.199:3000/websocket', { autoReconnect: true })
 
 
 class App extends React.Component {
@@ -21,7 +21,7 @@ class App extends React.Component {
       if (!Meteor.user()) {
         return <Signin />
       }
-        return <Text>{this.props.status.status}!!!</Text>;
+        return <Periods />;
     }
 }
 

@@ -31,6 +31,7 @@ class Signin extends React.Component {
     if (!email || !password){
       return this.setState({error: 'Invalid data...'});
     }
+
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
        return this.setState({ error: err.reason });
