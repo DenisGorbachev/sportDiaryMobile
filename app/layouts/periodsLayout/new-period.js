@@ -10,20 +10,22 @@ import {
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import DatePicker from 'react-native-datepicker';
-
+import { _ } from 'underscore-node';
 class NewPeriod extends React.Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       exercises: [],
-      ds: ds.cloneWithRows(["21312","dsaads"]),
+      ds: ds.cloneWithRows([]),
     }
     this.goBack = this.goBack.bind(this);
     this.changeStart = this.changeStart.bind(this);
     this.changeEnding = this.changeEnding.bind(this);
     this.addExercise = this.addExercise.bind(this);
     this.saveTempExercise = this.saveTempExercise.bind(this);
+    this.removeExercise = this.removeExercise.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   goBack() {
@@ -46,9 +48,25 @@ class NewPeriod extends React.Component {
     }
   }
 
+  removeExercise(ex) {
+    const { exercises } = this.state;
+    const without = _.without(exercises, ex);
+    this.setState({
+      exercises: without,
+      ds: this.state.ds.cloneWithRows(without)
+    });
+  }
+
   renderRow(ex) {
     return (
-      <Text>{ex}</Text>
+      <View>
+        <Text>{ex}</Text>
+        <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
+          <Text style={{color: 'red'}} >
+            remove
+          </Text>
+        </TouchableHighlight>
+      </View>
     )
   }
 
@@ -61,6 +79,15 @@ class NewPeriod extends React.Component {
   }
 
   render() {
+    const btnStyle = {
+      backgroundColor: "black",
+      border: "none",
+      color: "white",
+      textAlign: "center",
+      textDecoration: "none",
+      display: "inline-block",
+    }
+
     return (
       <View>
         <Text>New Period</Text>
@@ -123,7 +150,7 @@ class NewPeriod extends React.Component {
           />
 
           <TouchableHighlight onPress={this.addExercise} >
-            <Text>add exercise</Text>
+            <Text style={btnStyle} >add exercise</Text>
           </TouchableHighlight>
 
           <ListView
@@ -135,7 +162,7 @@ class NewPeriod extends React.Component {
 
 
         <TouchableHighlight onPress={this.goBack} >
-          <Text>Go back</Text>
+          <Text style={btnStyle}>Go back</Text>
         </TouchableHighlight>
       </View>
     );
