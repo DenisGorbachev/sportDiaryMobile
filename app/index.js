@@ -21,7 +21,7 @@ class App extends React.Component {
       if (!Meteor.user()) {
         return <Signin />
       }
-        return <Periods />;
+        return <Periods />
     }
 }
 
