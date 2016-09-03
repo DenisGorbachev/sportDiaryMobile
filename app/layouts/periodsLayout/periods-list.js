@@ -10,7 +10,7 @@ import moment from 'momentjs';
 import  Meteor, { createContainer } from 'react-native-meteor';
 import TabNavigator from 'react-native-tab-navigator';
 import NewPeriod from './new-period.js';
-
+import Period from './period.js';
 class PeriodsList extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +19,8 @@ class PeriodsList extends React.Component {
     this.state = {
       ds: ds.cloneWithRows(props.periods || [])
     }
+    this.openPeriod = this.openPeriod.bind(this);
+    this.renderRow = this.renderRow.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,13 +35,24 @@ class PeriodsList extends React.Component {
     this.props.navigator.push({ component: NewPeriod })
   }
 
+  openPeriod(p) {
+    this.props.navigator.push({
+      component: Period,
+      period: p,
+    })
+  }
+
 
   renderRow(p) {
     return (
-      <Text>
-        {moment(p.startsAt).format("DD:MM:YYYY")}
-          - {moment(p.endsAt).format("DD:MM:YYYY")}
-      </Text>
+      <View>
+        <TouchableHighlight onPress={this.openPeriod.bind(null, p)} >
+          <Text>
+            {moment(p.startsAt).format("DD:MM:YYYY")}
+              - {moment(p.endsAt).format("DD:MM:YYYY")}
+          </Text>
+        </TouchableHighlight>
+      </View>
     )
   }
 
