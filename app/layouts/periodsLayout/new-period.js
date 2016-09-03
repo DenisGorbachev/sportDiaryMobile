@@ -11,6 +11,8 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import DatePicker from 'react-native-datepicker';
 import { _ } from 'underscore-node';
+import Meteor from 'react-native-meteor';
+import moment from 'momentjs'
 class NewPeriod extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class NewPeriod extends React.Component {
     this.state = {
       exercises: [],
       ds: ds.cloneWithRows([]),
+      errors: [],
     }
     this.goBack = this.goBack.bind(this);
     this.changeStart = this.changeStart.bind(this);
@@ -26,6 +29,7 @@ class NewPeriod extends React.Component {
     this.saveTempExercise = this.saveTempExercise.bind(this);
     this.removeExercise = this.removeExercise.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.savePeriod = this.savePeriod.bind(this);
   }
 
   goBack() {
@@ -55,6 +59,30 @@ class NewPeriod extends React.Component {
       exercises: without,
       ds: this.state.ds.cloneWithRows(without)
     });
+  }
+
+  savePeriod() {
+    const { startsAt, endsAt, exercises } = this.state;
+    let errors = this.state.errors;
+    if (!startsAt || !endsAt || !exercises.length)
+      return errors.push("Make sure you filled all information!");
+    else {
+      errors = [];
+      const userId = Meteor.userId();
+      const data = {
+        userId,
+        startsAt: new Date(startsAt),
+        endsAt: new Date(endsAt),
+        exercises
+      }
+      Meteor.call('periods.insert', data, (err) => {
+        if (err) {
+          return this.setState({ errors: errors.concat([err.reason]) });
+        }
+
+        this.props.navigator.pop();
+      });
+    }
   }
 
   renderRow(ex) {
@@ -91,6 +119,12 @@ class NewPeriod extends React.Component {
     return (
       <View>
         <Text>New Period</Text>
+        <View>
+          {this.state.errors.map(err => (
+            <Text style={{color: 'red'}}>
+              {err}
+            </Text>))}
+        </View>
 
         <View>
           <Text>Period starts at: </Text>
@@ -160,7 +194,9 @@ class NewPeriod extends React.Component {
           </ListView>
         </View>
 
-
+        <TouchableHighlight onPress={this.savePeriod} >
+          <Text style={btnStyle}>Save Period</Text>
+        </TouchableHighlight>
         <TouchableHighlight onPress={this.goBack} >
           <Text style={btnStyle}>Go back</Text>
         </TouchableHighlight>
