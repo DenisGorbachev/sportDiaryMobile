@@ -7,6 +7,7 @@ import {
   ListView,
 } from 'react-native';
 import moment from 'momentjs';
+import { Cell, Section, TableView } from 'react-native-tableview-simple';
 
 export default class Training extends React.Component {
   constructor(props) {
@@ -26,11 +27,33 @@ export default class Training extends React.Component {
   }
 
   renderRow(ex) {
+    const { sets } = ex;
+    const style = {
+      rows: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+      }
+    }
     return (
       <View>
-        <Text>
-          {ex.name}
-        </Text>
+        <TableView>
+          <Section header={ex.name}>
+            <View style={style.rows}>
+              <Text>N</Text>
+              <Text>Weight</Text>
+              <Text>Repeats</Text>
+            </View>
+            {sets && sets.map((s,i) => {
+              return (
+                <View style={style.rows} >
+                  <Text>{i+1}</Text>
+                  <Text>{s.weight}</Text>
+                  <Text>{s.repeats}</Text>
+                </View>
+              )
+            })}
+          </Section>
+        </TableView>
       </View>
     )
   }

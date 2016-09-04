@@ -60,7 +60,6 @@ export default class Period extends React.Component {
     return (
       <View>
         <Text>
-          Period Component {_id}
           trainings: { trainings.length }
         </Text>
         <ListView
