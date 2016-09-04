@@ -7,7 +7,7 @@ import {
   View,
   ListView,
 } from 'react-native';
-
+import moment from 'momentjs'
 
 export default class Period extends React.Component {
   constructor(props) {
@@ -20,10 +20,12 @@ export default class Period extends React.Component {
   }
 
   render() {
+    const { startsAt, exerices, endsAt, _id, trainings } = this.props;
     return (
       <View>
         <Text>
-          Period Component { }
+          Period Component {_id}
+          trainings: { trainings.length }
         </Text>
         <TouchableHighlight onPress={this.goBack} >
           <Text>

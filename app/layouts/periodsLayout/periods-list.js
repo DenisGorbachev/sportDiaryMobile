@@ -10,7 +10,7 @@ import moment from 'momentjs';
 import  Meteor, { createContainer } from 'react-native-meteor';
 import TabNavigator from 'react-native-tab-navigator';
 import NewPeriod from './new-period.js';
-import Period from './period.js';
+import PeriodContainer from './period-container.js';
 class PeriodsList extends React.Component {
   constructor(props) {
     super(props);
@@ -37,8 +37,8 @@ class PeriodsList extends React.Component {
 
   openPeriod(p) {
     this.props.navigator.push({
-      component: Period,
-      period: p,
+      component: PeriodContainer,
+      passProps: p,
     })
   }
 
