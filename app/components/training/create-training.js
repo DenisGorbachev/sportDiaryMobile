@@ -10,6 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
+
 import DropDown, {
   Select,
   Option,
@@ -198,53 +200,56 @@ export default class CreateTraining extends React.Component {
 
 
           <View>
-            <Text>edit:</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-              <Text style={{width: 50}} >N</Text>
-              <Text style={{width: 50}} >Weight</Text>
-              <Text style={{width: 50}} >Repeats</Text>
-            </View>
-              {ex.sets && ex.sets.map( (s,index) => (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                  <Text style={{width: 50}} >{index+1}</Text>
-                  <Text style={{width: 50}} >{s.weight}</Text>
-                  <Text style={{width: 50}} >{s.repeats}</Text>
-                </View>
-              ))}
+              <Text>edit:</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                <Text style={{width: 50}} >N</Text>
+                <Text style={{width: 50}} >Weight</Text>
+                <Text style={{width: 50}} >Repeats</Text>
+              </View>
+              <View style={{maxHeight: 150}} >
+                <ScrollView>
+                  {ex.sets && ex.sets.map( (s,index) => (
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                      <Text style={{width: 50}} >{index+1}</Text>
+                      <Text style={{width: 50}} >{s.weight}</Text>
+                      <Text style={{width: 50}} >{s.repeats}</Text>
+                    </View>
+                  ))}
+                </ScrollView>
+              </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
-              <TextInput
-                style={{height: 40, width: 100}}
-                placeholder="enter weight"
-                onChangeText={this.setWeight}
-                ref={component => this._weightInput = component}
-              />
-              <TextInput
-                style={{height: 40, width: 100}}
-                placeholder="enter repeats"
-                onChangeText={this.setRepeats}
-                ref={component => this._repeatsInput = component}
-              />
-              <TouchableHighlight onPress={this.addSetToEditingExercise} >
-                <Text>
-                  add
-                </Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
+                <TextInput
+                  style={{height: 40, width: 100}}
+                  placeholder="enter weight"
+                  onChangeText={this.setWeight}
+                  ref={component => this._weightInput = component}
+                />
+                <TextInput
+                  style={{height: 40, width: 100}}
+                  placeholder="enter repeats"
+                  onChangeText={this.setRepeats}
+                  ref={component => this._repeatsInput = component}
+                />
+                <TouchableHighlight onPress={this.addSetToEditingExercise} >
+                  <Text>
+                    add
+                  </Text>
+                </TouchableHighlight>
+              </View>
+
+
+
+              <TouchableHighlight onPress={this.saveExercise}>
+                <Text>save...</Text>
               </TouchableHighlight>
-            </View>
 
 
-
-            <TouchableHighlight onPress={this.saveExercise}>
-              <Text>save...</Text>
-            </TouchableHighlight>
-
-
-            <TouchableHighlight onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}>
-              <Text>Back</Text>
-            </TouchableHighlight>
-
+              <TouchableHighlight onPress={() => {
+                this.setModalVisible(!this.state.modalVisible)
+              }}>
+                <Text>Back</Text>
+              </TouchableHighlight>
 
           </View>
          </View>
@@ -267,53 +272,51 @@ export default class CreateTraining extends React.Component {
     const items = _.difference(exercises, selectedExercises );
     return (
       <View>
-        <Text>Create Training:</Text>
-        {error && <Text style={{color: 'red'}} >{error}</Text>}
-        {items.length ?
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Select
-                width={250}
-                ref="SELECT1"
-                optionListRef={this._getOptionList}
-                defaultValue="Select Exersice ..."
-                onSelect={this.selectExercise.bind(this)}>
-                {items.map(item => (
-                  <Option>{item}</Option>
-                ))}
-              </Select>
+          <Text>Create Training:</Text>
+          {error && <Text style={{color: 'red'}} >{error}</Text>}
+          {items.length ?
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Select
+                  width={250}
+                  ref="SELECT1"
+                  optionListRef={this._getOptionList}
+                  defaultValue="Select Exersice ..."
+                  onSelect={this.selectExercise.bind(this)}>
+                  {items.map(item => (
+                    <Option>{item}</Option>
+                  ))}
+                </Select>
 
-              <OptionList ref="OPTIONLIST"/>
-          </View>
-          : null
-        }
-        <View>
-          <Text>Selected Exersices:</Text>
-          {selectedExercises.map( (ex, index) => (
-            <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-              <TouchableHighlight>
-                <Text style={{width: 100}}>{ex}</Text>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
-                <Text style={{color: 'green'}} >edit</Text>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
-                <Text style={{color: 'red'}} >remove</Text>
-              </TouchableHighlight>
+                <OptionList ref="OPTIONLIST"/>
             </View>
-          ))}
-        </View>
+            : null
+          }
+          <View>
+            <Text>Selected Exersices:</Text>
+            {selectedExercises.map( (ex, index) => (
+              <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
+                <TouchableHighlight>
+                  <Text style={{width: 100}}>{ex}</Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
+                  <Text style={{color: 'green'}} >edit</Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
+                  <Text style={{color: 'red'}} >remove</Text>
+                </TouchableHighlight>
+              </View>
+            ))}
+          </View>
 
-        {modalVisible && this.renderEditModal()}
+          {modalVisible && this.renderEditModal()}
 
-        <TouchableHighlight onPress={ this.save }>
-          <Text>Save</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={ this.goBack }>
-          <Text>Go back</Text>
-        </TouchableHighlight>
+          <TouchableHighlight onPress={ this.save }>
+            <Text>Save</Text>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={ this.goBack }>
+            <Text>Go back</Text>
+          </TouchableHighlight>
       </View>
-
-
     );
   }
 }
