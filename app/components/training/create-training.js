@@ -32,6 +32,7 @@ export default class CreateTraining extends React.Component {
     this.handleSelectExercise = this.handleSelectExercise.bind(this);
     this._getOptionList = this._getOptionList.bind(this);
     this.selectExercise = this.selectExercise.bind(this);
+    this.removeExercise = this.removeExercise.bind(this);
   }
 
   handleSelectExercise(value) {
@@ -60,6 +61,14 @@ export default class CreateTraining extends React.Component {
   selectExercise(ex) {
     const { exercises } = this.state;
     exercises.push({ name: ex, editMode: false });
+    this.setState({ exercises });
+  }
+
+
+  removeExercise(ex) {
+    const { exercises } = this.state;
+    const removeExerciseIndex = _.findIndex(exercises, (e) => (e.name == ex));
+    exercises.splice(removeExerciseIndex, 1);
     this.setState({ exercises });
   }
 
@@ -92,9 +101,15 @@ export default class CreateTraining extends React.Component {
           <Text>Selected Exersices:</Text>
           {selectedExercises.map(ex => (
             <View style = {{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <Text>{ex}</Text>
-              <Text style={{color: 'green'}} >edit</Text>
-              <Text style={{color: 'red'}} >remove</Text>
+              <TouchableHighlight>
+                <Text>{ex}</Text>
+              </TouchableHighlight>
+              <TouchableHighlight >
+                <Text style={{color: 'green'}} >edit</Text>
+              </TouchableHighlight>
+              <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
+                <Text style={{color: 'red'}} >remove</Text>
+              </TouchableHighlight>
             </View>
           ))}
         </View>
