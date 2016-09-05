@@ -6,7 +6,7 @@ import Signin from './components/signin';
 import Periods from './layouts/periodsLayout/periods.js'
 // Meteor.connect(settings.METEOR_URL);
 // Meteor.connect('ws://localhost:3000/websocket', { autoReconnect: true })
-Meteor.connect('ws://192.168.31.11:3000/websocket', { autoReconnect: true })
+Meteor.connect('ws://192.168.31.10:3000/websocket', { autoReconnect: true })
 
 
 class App extends React.Component {

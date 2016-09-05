@@ -7,8 +7,9 @@ import {
   View,
   ListView,
 } from 'react-native';
-import moment from 'momentjs'
-import Training from '../../components/training/training.js'
+import moment from 'momentjs';
+import Training from '../../components/training/training.js';
+import CreateTraining from '../../components/training/create-training.js';
 
 export default class Period extends React.Component {
   constructor(props) {
@@ -20,6 +21,15 @@ export default class Period extends React.Component {
     }
     this.openTraining = this.openTraining.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.createTraining = this.createTraining.bind(this);
+  }
+
+  createTraining() {
+    const { exercises, _id } = this.props;
+    this.props.navigator.push({
+      component: CreateTraining,
+      passProps: { exercises, _id }
+    })
   }
 
   goBack() {
@@ -62,6 +72,10 @@ export default class Period extends React.Component {
         <Text>
           trainings: { trainings.length }
         </Text>
+        <TouchableHighlight onPress={this.createTraining} >
+          <Text>create training</Text>
+        </TouchableHighlight>
+
         <ListView
           renderRow={this.renderRow}
           dataSource={this.state.ds}
