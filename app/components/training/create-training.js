@@ -16,6 +16,7 @@ import DropDown, {
   OptionList,
 } from 'react-native-selectme';
 
+import DatePicker from 'react-native-datepicker';
 
 import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
@@ -29,6 +30,7 @@ export default class CreateTraining extends React.Component {
       selectExercises: props.exercises,
       exercises: [],
       modalVisible: false,
+      error: null,
     };
     this.goBack = this.goBack.bind(this);
     this.save = this.save.bind(this);
@@ -42,6 +44,8 @@ export default class CreateTraining extends React.Component {
     this.setWeight = this.setWeight.bind(this);
     this.addSetToEditingExercise = this.addSetToEditingExercise.bind(this);
     this.clearText = this.clearText.bind(this);
+    this.changeDate = this.changeDate.bind(this);
+    this.setModalVisible = this.setModalVisible.bind(this);
   }
 
   handleSelectExercise(value) {
@@ -52,6 +56,12 @@ export default class CreateTraining extends React.Component {
 
   _getOptionList() {
     return this.refs['OPTIONLIST'];
+  }
+
+  changeDate(date) {
+    const {exercises, editingExerciseIndex } = this.state;
+    exercises[editingExerciseIndex].date = date;
+    this.setState({ date, exercises });
   }
 
   save() {
@@ -89,7 +99,14 @@ export default class CreateTraining extends React.Component {
   }
 
   saveExercise() {
-
+    const { editingExerciseIndex, exercises } = this.state;
+    const { sets, date } = exercises[editingExerciseIndex];
+    if (!sets.length) {
+      this.setState({ error: 'Make sure you filled all information' });
+    } else {
+      this.setState({ error: null });
+      this.setModalVisible(false);
+    }
   }
 
   setRepeats(value) {
@@ -126,7 +143,13 @@ export default class CreateTraining extends React.Component {
   }
 
   renderEditModal() {
-    const { exercises, editingExerciseIndex, newSet } = this.state;
+    const {
+      exercises,
+      editingExerciseIndex,
+      newSet,
+      date,
+      error
+    } = this.state;
     const ex = exercises[editingExerciseIndex];
     if (!ex.sets) {
       ex.sets = [];
@@ -140,6 +163,34 @@ export default class CreateTraining extends React.Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <View style={{marginTop: 22}}>
+         {error && <Text style={{color: 'red'}} >{error}</Text>}
+          <View>
+            <Text>Period starts at: </Text>
+            <DatePicker style={{width: 200}}
+              date={(ex && ex.date) || date}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="2016-05-01"
+              maxDate="2018-06-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                },
+              }}
+              onDateChange={this.changeDate}
+            />
+          </View>
+
+
           <View>
             <Text>edit:</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
