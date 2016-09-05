@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   View,
   ListView,
+  ScrollView
 } from 'react-native';
 import moment from 'momentjs';
 import Training from '../../components/training/training.js';
@@ -58,7 +59,7 @@ export default class Period extends React.Component {
     }).bind(this)
     return (
       <TouchableHighlight onPress={callback} >
-        <Text>
+        <Text style={{marginTop: 10}} >
           {moment(date).format("DD:MM:YYYY")}
         </Text>
       </TouchableHighlight>
@@ -75,12 +76,15 @@ export default class Period extends React.Component {
         <TouchableHighlight onPress={this.createTraining} >
           <Text>create training</Text>
         </TouchableHighlight>
-
-        <ListView
-          renderRow={this.renderRow}
-          dataSource={this.state.ds}
-        >
-        </ListView>
+        <View style={{maxHeight: 300}} >
+          <ScrollView>
+            <ListView
+              renderRow={this.renderRow}
+              dataSource={this.state.ds}
+            >
+            </ListView>
+          </ScrollView>
+        </View>
         <TouchableHighlight onPress={this.goBack} >
           <Text>
             go Back
