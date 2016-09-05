@@ -7,6 +7,7 @@ import {
   ListView,
   ScrollView,
   Modal,
+  TextInput,
 } from 'react-native';
 
 import DropDown, {
@@ -37,6 +38,10 @@ export default class CreateTraining extends React.Component {
     this.removeExercise = this.removeExercise.bind(this);
     this.editExercise = this.editExercise.bind(this);
     this.saveExercise = this.saveExercise.bind(this);
+    this.setRepeats = this.setRepeats.bind(this);
+    this.setWeight = this.setWeight.bind(this);
+    this.addSetToEditingExercise = this.addSetToEditingExercise.bind(this);
+    this.clearText = this.clearText.bind(this);
   }
 
   handleSelectExercise(value) {
@@ -87,15 +92,45 @@ export default class CreateTraining extends React.Component {
 
   }
 
+  setRepeats(value) {
+    const { newSet = {} } = this.state;
+    newSet.repeats = parseInt(value, 10);
+    this.setState({ newSet });
+  }
+
+  setWeight(value) {
+    const { newSet = {} } = this.state;
+    newSet.weight = parseInt(value, 10);
+    this.setState({ newSet });
+  }
+
+  addSetToEditingExercise() {
+    const { editingExerciseIndex, exercises, newSet } = this.state;
+    const { weight, repeats } = newSet;
+    if (weight && repeats) {
+      exercises[editingExerciseIndex].sets.push(newSet);
+      this.setState({ exercises, newSet: {}});
+      this.clearText()
+    }
+  }
+
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
+  clearText() {
+    this._weightInput.setNativeProps({text: ''});
+    this._repeatsInput.setNativeProps({text: ''});
+    
+  }
+
   renderEditModal() {
-    const { exercises, editingExerciseIndex } = this.state;
+    const { exercises, editingExerciseIndex, newSet } = this.state;
     const ex = exercises[editingExerciseIndex];
-    console.error(ex);
+    if (!ex.sets) {
+      ex.sets = [];
+    }
     return (
       <View style={{marginTop: 22}}>
         <Modal
@@ -107,6 +142,39 @@ export default class CreateTraining extends React.Component {
          <View style={{marginTop: 22}}>
           <View>
             <Text>edit:</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Text>N</Text>
+              <Text>Weight</Text>
+              <Text>Repeats</Text>
+            </View>
+              {ex.sets && ex.sets.map( (s,index) => (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <Text>{index+1}</Text>
+                  <Text>{s.weight}</Text>
+                  <Text>{s.repeats}</Text>
+                </View>
+              ))}
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+              <TextInput
+                style={{height: 40, width: 100}}
+                placeholder="enter weight"
+                onChangeText={this.setWeight}
+                ref={component => this._weightInput = component}
+              />
+              <TextInput
+                style={{height: 40, width: 100}}
+                placeholder="enter repeats"
+                onChangeText={this.setRepeats}
+                ref={component => this._repeatsInput = component}
+              />
+              <TouchableHighlight onPress={this.addSetToEditingExercise} >
+                <Text>
+                  add
+                </Text>
+              </TouchableHighlight>
+            </View>
+
 
 
             <TouchableHighlight onPress={this.saveExercise}>
