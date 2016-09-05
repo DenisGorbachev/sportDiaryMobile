@@ -20,7 +20,7 @@ import DatePicker from 'react-native-datepicker';
 
 import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
-import { Meteor } from 'react-native-meteor';
+import Meteor from 'react-native-meteor';
 import { _ } from 'underscore';
 export default class CreateTraining extends React.Component {
   constructor(props) {
@@ -59,18 +59,24 @@ export default class CreateTraining extends React.Component {
   }
 
   changeDate(date) {
-    const {exercises, editingExerciseIndex } = this.state;
-    exercises[editingExerciseIndex].date = date;
     this.setState({ date, exercises });
   }
 
   save() {
     const training = {
       userId: Meteor.userId(),
-      periodId: this.props.period._id,
+      periodId: this.props._id,
       exercises: this.state.exercises,
       date: this.state.date,
     };
+    Meteor.call('trainings.insert', training, (err) => {
+      if (err) {
+        console.error(training)
+        this.setState({ error: err.reason });
+      } else {
+        this.goBack();
+      }
+    });
   }
 
   goBack() {
@@ -95,6 +101,7 @@ export default class CreateTraining extends React.Component {
     this.setState({
       modalVisible: true,
       editingExerciseIndex: index,
+      error: null,
     });
   }
 
@@ -255,14 +262,14 @@ export default class CreateTraining extends React.Component {
   }
 
   render() {
-    const { modalVisible } = this.state;
+    const { modalVisible, error } = this.state;
     const { exercises } = this.props;
     const selectedExercises = this.state.exercises.map(ex => (ex.name));
     const items = _.difference(exercises, selectedExercises );
     return (
       <View>
         <Text>Create Training:</Text>
-        <Text>{this.props._id}</Text>
+        {error && <Text style={{color: 'red'}} >{error}</Text>}
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Select
