@@ -291,21 +291,23 @@ export default class CreateTraining extends React.Component {
             </View>
             : null
           }
-          <View>
-            <Text>Selected Exersices:</Text>
-            {selectedExercises.map( (ex, index) => (
-              <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-                <TouchableHighlight>
-                  <Text style={{width: 100}}>{ex}</Text>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
-                  <Text style={{color: 'green'}} >edit</Text>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
-                  <Text style={{color: 'red'}} >remove</Text>
-                </TouchableHighlight>
-              </View>
-            ))}
+          <View style={{maxHeight: 250}}>
+            <ScrollView>
+              <Text>Selected Exersices:</Text>
+              {selectedExercises.map( (ex, index) => (
+                <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
+                  <TouchableHighlight>
+                    <Text style={{width: 100}}>{ex}</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
+                    <Text style={{color: 'green'}} >edit</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
+                    <Text style={{color: 'red'}} >remove</Text>
+                  </TouchableHighlight>
+                </View>
+              ))}
+            </ScrollView>
           </View>
 
           {modalVisible && this.renderEditModal()}

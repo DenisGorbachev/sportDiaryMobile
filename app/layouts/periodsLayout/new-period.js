@@ -6,7 +6,8 @@ import {
   TouchableHighlight,
   View,
   TextInput,
-  ListView
+  ListView,
+  ScrollView
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import DatePicker from 'react-native-datepicker';
@@ -87,8 +88,8 @@ class NewPeriod extends React.Component {
 
   renderRow(ex) {
     return (
-      <View>
-        <Text>{ex}</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}} >
+        <Text style={{width:100}}>{ex}</Text>
         <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
           <Text style={{color: 'red'}} >
             remove
@@ -183,23 +184,30 @@ class NewPeriod extends React.Component {
             value={this.state.newExercise}
           />
 
+          <View style={{maxHeight: 100}} >
+            <ScrollView>
+              <ListView
+                dataSource={this.state.ds}
+                renderRow={this.renderRow}
+              >
+              </ListView>
+            </ScrollView>
+          </View>
+
           <TouchableHighlight onPress={this.addExercise} >
-            <Text style={btnStyle} >add exercise</Text>
+            <Text style={{marginTop:20}} >add exercise</Text>
           </TouchableHighlight>
 
-          <ListView
-            dataSource={this.state.ds}
-            renderRow={this.renderRow}
-          >
-          </ListView>
-        </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
+            <TouchableHighlight onPress={this.savePeriod} >
+              <Text style={{marginTop:20}} >Save Period</Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={this.goBack} >
+              <Text style={{marginTop:20}} >Go back</Text>
+            </TouchableHighlight>
+          </View>
 
-        <TouchableHighlight onPress={this.savePeriod} >
-          <Text style={btnStyle}>Save Period</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this.goBack} >
-          <Text style={btnStyle}>Go back</Text>
-        </TouchableHighlight>
+        </View>
       </View>
     );
   }

@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   View,
   ListView,
+  ScrollView,
 } from 'react-native';
 import moment from 'momentjs';
 import  Meteor, { createContainer } from 'react-native-meteor';
@@ -47,7 +48,7 @@ class PeriodsList extends React.Component {
     return (
       <View>
         <TouchableHighlight onPress={this.openPeriod.bind(null, p)} >
-          <Text>
+          <Text style={{marginTop: 10, fontSize: 14}} >
             {moment(p.startsAt).format("DD:MM:YYYY")}
               - {moment(p.endsAt).format("DD:MM:YYYY")}
           </Text>
@@ -62,11 +63,15 @@ class PeriodsList extends React.Component {
       <View>
         <Text>Periods List</Text>
         <Text>You have </Text>
-          <ListView
-            dataSource={this.state.ds}
-            renderRow={this.renderRow}
-          >
-          </ListView>
+        <View style={{maxHeight: 300}}>
+          <ScrollView>
+            <ListView
+              dataSource={this.state.ds}
+              renderRow={this.renderRow}
+            >
+            </ListView>
+          </ScrollView>
+        </View>
         <TouchableHighlight onPress={ this._navigate }>
           <Text>Create New Period</Text>
         </TouchableHighlight>
