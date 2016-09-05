@@ -1,3 +1,3 @@
 import Signin from './signin.js';
 
-export default Signin;
+export default Sign;

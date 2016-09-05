@@ -1,15 +1,14 @@
 import React from 'react';
 import { LayoutAnimation } from 'react-native';
 import Meteor, { Accounts, createContainer } from 'react-native-meteor';
+import Signin from './signin.js';
 import {
   Text,
   TextInput,
   View,
   TouchableHighlight
 } from 'react-native';
-
-import Signup from './signup.js';
-class Signin extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,10 +17,10 @@ class Signin extends React.Component {
     this.setEmail = this.setEmail.bind(this);
     this.setPassword = this.setPassword.bind(this);
     this._onPressButton = this._onPressButton.bind(this);
-    this.signup = this.signup.bind(this);
+    this.signin = this.signin.bind(this);
   }
 
-  signup() {
+  signin() {
     this.props.toggleSignin()
   }
 
@@ -38,7 +37,7 @@ class Signin extends React.Component {
     if (!email || !password){
       return this.setState({error: 'Invalid data...'});
     }
-    Meteor.loginWithPassword(email, password, (err) => {
+    Accounts.createUser(email, password, (err) => {
       if (err) {
        return this.setState({ error: err.reason });
       }
@@ -76,11 +75,9 @@ class Signin extends React.Component {
             <Text> Submit </Text>
           </TouchableHighlight>
 
-
-          <TouchableHighlight onPress={this.signup}>
-            <Text> signup </Text>
+          <TouchableHighlight onPress={this.signin}>
+            <Text> signin </Text>
           </TouchableHighlight>
-
 
           {Meteor.user() ? <Text>Meteor.userId()</Text>: null}
       </View>
@@ -88,4 +85,4 @@ class Signin extends React.Component {
   }
 }
 
-export default Signin;
+export default Signup;

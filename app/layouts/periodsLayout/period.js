@@ -23,6 +23,7 @@ export default class Period extends React.Component {
     this.openTraining = this.openTraining.bind(this);
     this.renderRow = this.renderRow.bind(this);
     this.createTraining = this.createTraining.bind(this);
+
   }
 
   createTraining() {
@@ -51,6 +52,7 @@ export default class Period extends React.Component {
       passProps: training,
     })
   }
+
 
   renderRow(training) {
     const { date } = training;

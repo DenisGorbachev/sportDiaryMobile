@@ -22,6 +22,7 @@ class PeriodsList extends React.Component {
     }
     this.openPeriod = this.openPeriod.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,6 +32,10 @@ class PeriodsList extends React.Component {
     });
   }
 
+
+  logout() {
+    Meteor.logout();
+  }
 
   _navigate() {
     this.props.navigator.push({ component: NewPeriod })
@@ -61,6 +66,9 @@ class PeriodsList extends React.Component {
     const { periods } = this.props;
     return (
       <View>
+        <TouchableHighlight onPress={this.logout} >
+          <Text style={{fontSize: 18}}>Logout</Text>
+        </TouchableHighlight>
         <Text>Periods List</Text>
         <Text>You have </Text>
         <View style={{maxHeight: 300}}>
