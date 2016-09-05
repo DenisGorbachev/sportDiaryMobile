@@ -49,6 +49,7 @@ class NewPeriod extends React.Component {
         exercises,
         ds: ds.cloneWithRows(exercises),
         newExercise: '',
+        error: null,
       });
     }
   }
@@ -64,11 +65,12 @@ class NewPeriod extends React.Component {
 
   savePeriod() {
     const { startsAt, endsAt, exercises } = this.state;
-    let errors = this.state.errors;
-    if (!startsAt || !endsAt || !exercises.length)
-      return errors.push("Make sure you filled all information!");
-    else {
-      errors = [];
+    let error = this.state.error;
+    if (!startsAt || !endsAt || !exercises.length){
+      error = "Make sure you filled all information!";
+      return this.setState({ error });
+    } else {
+      errors = null;
       const userId = Meteor.userId();
       const data = {
         userId,
@@ -78,7 +80,7 @@ class NewPeriod extends React.Component {
       }
       Meteor.call('periods.insert', data, (err) => {
         if (err) {
-          return this.setState({ errors: errors.concat([err.reason]) });
+          return this.setState({ error: err.reason });
         }
 
         this.props.navigator.pop();
@@ -116,15 +118,16 @@ class NewPeriod extends React.Component {
       textDecoration: "none",
       display: "inline-block",
     }
-
+    const { error } = this.state;
     return (
       <View>
         <Text>New Period</Text>
         <View>
-          {this.state.errors.map(err => (
+          {error &&
             <Text style={{color: 'red'}}>
-              {err}
-            </Text>))}
+              {error}
+            </Text>
+          }
         </View>
 
         <View>
