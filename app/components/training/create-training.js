@@ -6,6 +6,7 @@ import {
   View,
   ListView,
   ScrollView,
+  Modal,
 } from 'react-native';
 
 import DropDown, {
@@ -26,6 +27,7 @@ export default class CreateTraining extends React.Component {
       date: new Date(),
       selectExercises: props.exercises,
       exercises: [],
+      modalVisible: false,
     };
     this.goBack = this.goBack.bind(this);
     this.save = this.save.bind(this);
@@ -33,6 +35,8 @@ export default class CreateTraining extends React.Component {
     this._getOptionList = this._getOptionList.bind(this);
     this.selectExercise = this.selectExercise.bind(this);
     this.removeExercise = this.removeExercise.bind(this);
+    this.editExercise = this.editExercise.bind(this);
+    this.saveExercise = this.saveExercise.bind(this);
   }
 
   handleSelectExercise(value) {
@@ -72,7 +76,67 @@ export default class CreateTraining extends React.Component {
     this.setState({ exercises });
   }
 
+  editExercise(index) {
+    this.setState({
+      modalVisible: true,
+      editingExerciseIndex: index,
+    });
+  }
+
+  saveExercise() {
+
+  }
+
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  renderEditModal() {
+    const { exercises, editingExerciseIndex } = this.state;
+    const ex = exercises[editingExerciseIndex];
+    console.error(ex);
+    return (
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <View style={{marginTop: 22}}>
+          <View>
+            <Text>edit:</Text>
+
+
+            <TouchableHighlight onPress={this.saveExercise}>
+              <Text>save...</Text>
+            </TouchableHighlight>
+
+
+            <TouchableHighlight onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }}>
+              <Text>Back</Text>
+            </TouchableHighlight>
+
+
+          </View>
+         </View>
+        </Modal>
+
+        <TouchableHighlight onPress={() => {
+          this.setModalVisible(true)
+        }}>
+          <Text>Show Modal</Text>
+        </TouchableHighlight>
+
+      </View>
+    )
+  }
+
   render() {
+    const { modalVisible } = this.state;
     const { exercises } = this.props;
     const selectedExercises = this.state.exercises.map(ex => (ex.name));
     const items = _.difference(exercises, selectedExercises );
@@ -99,12 +163,12 @@ export default class CreateTraining extends React.Component {
         </View>
         <View>
           <Text>Selected Exersices:</Text>
-          {selectedExercises.map(ex => (
+          {selectedExercises.map( (ex, index) => (
             <View style = {{flexDirection: 'row', justifyContent: 'space-around'}}>
               <TouchableHighlight>
                 <Text>{ex}</Text>
               </TouchableHighlight>
-              <TouchableHighlight >
+              <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
                 <Text style={{color: 'green'}} >edit</Text>
               </TouchableHighlight>
               <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
@@ -114,7 +178,7 @@ export default class CreateTraining extends React.Component {
           ))}
         </View>
 
-
+        {modalVisible && this.renderEditModal()}
 
         <TouchableHighlight onPress={ this.save }>
           <Text>Save</Text>
