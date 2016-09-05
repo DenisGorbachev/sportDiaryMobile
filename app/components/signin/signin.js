@@ -55,6 +55,7 @@ class Signin extends React.Component {
     const { error } = this.state;
     return (
       <View>
+        <Text style={{fontSize: 20}} >Signin:</Text>
         {error? <Text>{error}</Text> : null}
           <Text>
             Enter email

@@ -37,11 +37,12 @@ class Signup extends React.Component {
     if (!email || !password){
       return this.setState({error: 'Invalid data...'});
     }
-    Accounts.createUser(email, password, (err) => {
+    Accounts.createUser({ email, password }, (err) => {
       if (err) {
        return this.setState({ error: err.reason });
       }
       this.setState({ error: null });
+      this.props.toggleSignin();
     });
   }
 
@@ -54,6 +55,7 @@ class Signup extends React.Component {
     const { error } = this.state;
     return (
       <View>
+        <Text style={{fontSize: 20}} >Signup:</Text>
         {error? <Text>{error}</Text> : null}
           <Text>
             Enter email
