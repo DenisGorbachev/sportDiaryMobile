@@ -199,20 +199,20 @@ export default class CreateTraining extends React.Component {
 
           <View>
             <Text>edit:</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Text>N</Text>
-              <Text>Weight</Text>
-              <Text>Repeats</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+              <Text style={{width: 50}} >N</Text>
+              <Text style={{width: 50}} >Weight</Text>
+              <Text style={{width: 50}} >Repeats</Text>
             </View>
               {ex.sets && ex.sets.map( (s,index) => (
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                  <Text>{index+1}</Text>
-                  <Text>{s.weight}</Text>
-                  <Text>{s.repeats}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                  <Text style={{width: 50}} >{index+1}</Text>
+                  <Text style={{width: 50}} >{s.weight}</Text>
+                  <Text style={{width: 50}} >{s.repeats}</Text>
                 </View>
               ))}
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }} >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
               <TextInput
                 style={{height: 40, width: 100}}
                 placeholder="enter weight"
@@ -277,7 +277,6 @@ export default class CreateTraining extends React.Component {
                 optionListRef={this._getOptionList}
                 defaultValue="Select Exersice ..."
                 onSelect={this.selectExercise.bind(this)}>
-                <Option value = {{id : "alberta"}}>Exercises</Option>
                 {items.map(item => (
                   <Option>{item}</Option>
                 ))}
@@ -290,9 +289,9 @@ export default class CreateTraining extends React.Component {
         <View>
           <Text>Selected Exersices:</Text>
           {selectedExercises.map( (ex, index) => (
-            <View style = {{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
               <TouchableHighlight>
-                <Text>{ex}</Text>
+                <Text style={{width: 100}}>{ex}</Text>
               </TouchableHighlight>
               <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
                 <Text style={{color: 'green'}} >edit</Text>
