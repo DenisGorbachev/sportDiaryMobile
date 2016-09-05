@@ -146,7 +146,6 @@ export default class CreateTraining extends React.Component {
   clearText() {
     this._weightInput.setNativeProps({text: ''});
     this._repeatsInput.setNativeProps({text: ''});
-    
   }
 
   renderEditModal() {
@@ -270,23 +269,24 @@ export default class CreateTraining extends React.Component {
       <View>
         <Text>Create Training:</Text>
         {error && <Text style={{color: 'red'}} >{error}</Text>}
+        {items.length ?
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Select
+                width={250}
+                ref="SELECT1"
+                optionListRef={this._getOptionList}
+                defaultValue="Select Exersice ..."
+                onSelect={this.selectExercise.bind(this)}>
+                <Option value = {{id : "alberta"}}>Exercises</Option>
+                {items.map(item => (
+                  <Option>{item}</Option>
+                ))}
+              </Select>
 
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Select
-            width={250}
-            ref="SELECT1"
-            optionListRef={this._getOptionList}
-            defaultValue="Select Exersice ..."
-            onSelect={this.selectExercise.bind(this)}>
-            <Option value = {{id : "alberta"}}>Exercises</Option>
-            {items.map(item => (
-              <Option>{item}</Option>
-            ))}
-          </Select>
-
-
-          <OptionList ref="OPTIONLIST"/>
-        </View>
+              <OptionList ref="OPTIONLIST"/>
+          </View>
+          : null
+        }
         <View>
           <Text>Selected Exersices:</Text>
           {selectedExercises.map( (ex, index) => (
