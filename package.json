@@ -17,6 +17,8 @@
     "react-native-tableview-simple": "0.12.0",
     "react-native-selectme": "1.2.0",
     "react-native-infinite-scroll-view": "0.4.2",
+    "react-native-material-design": "0.3.7",
+    "react-native-vector-icons": "2.1.0",
     "momentjs": "1.1.15",
     "underscore-node": "0.1.2"
   }

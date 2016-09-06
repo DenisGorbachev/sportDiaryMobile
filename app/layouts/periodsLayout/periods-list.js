@@ -12,6 +12,11 @@ import  Meteor, { createContainer } from 'react-native-meteor';
 import TabNavigator from 'react-native-tab-navigator';
 import NewPeriod from './new-period.js';
 import PeriodContainer from './period-container.js';
+
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 class PeriodsList extends React.Component {
   constructor(props) {
     super(props);
@@ -51,13 +56,13 @@ class PeriodsList extends React.Component {
 
   renderRow(p) {
     return (
-      <View>
-        <TouchableHighlight onPress={this.openPeriod.bind(null, p)} >
-          <Text style={{marginTop: 10, fontSize: 14}} >
-            {moment(p.startsAt).format("DD:MM:YYYY")}
-              - {moment(p.endsAt).format("DD:MM:YYYY")}
+      <View {...style.listItemStyle} >
+        <Icon.Button name="label-outline" {...style.listItemTextStyle} onPress={this.openPeriod.bind(null, p)}>
+          <Text style={style.listItemColor} >
+          {moment(p.startsAt).format("DD:MM:YYYY")}
+          - {moment(p.endsAt).format("DD:MM:YYYY")}
           </Text>
-        </TouchableHighlight>
+        </Icon.Button>
       </View>
     )
   }
@@ -66,11 +71,10 @@ class PeriodsList extends React.Component {
     const { periods } = this.props;
     return (
       <View>
-        <TouchableHighlight onPress={this.logout} >
-          <Text style={{fontSize: 18}}>Logout</Text>
-        </TouchableHighlight>
-        <Text>Periods List</Text>
-        <Text>You have </Text>
+        <Icon.Button name="vpn-key" {...style.btnStyle} onPress={this.logout}>
+          Logout
+        </Icon.Button>
+        <Subheader text="Periods List"/>
         <View style={{maxHeight: 300}}>
           <ScrollView>
             <ListView
@@ -80,9 +84,9 @@ class PeriodsList extends React.Component {
             </ListView>
           </ScrollView>
         </View>
-        <TouchableHighlight onPress={ this._navigate }>
-          <Text>Create New Period</Text>
-        </TouchableHighlight>
+        <Icon.Button name="add" {...style.btnStyle}  onPress={this._navigate }>
+          Create New Period
+        </Icon.Button>
       </View>
 
 
