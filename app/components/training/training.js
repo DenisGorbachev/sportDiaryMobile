@@ -10,6 +10,11 @@ import {
 import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
 
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 export default class Training extends React.Component {
   constructor(props) {
     super(props);
@@ -29,30 +34,22 @@ export default class Training extends React.Component {
 
   renderRow(ex) {
     const { sets } = ex;
-    const style = {
-      rows: {
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-      }
-    }
     return (
       <View>
         <View>
-          <Text>
-            {ex.name}
-          </Text>
+          <Subheader text={ex.name} />
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-          <Text style={{width: 50}} >N</Text>
-          <Text style={{width: 50}} >Weight</Text>
-          <Text style={{width: 50}} >Repeats</Text>
+        <View style={style.headerTableCell}>
+          <Text style={style.headerTableCell.row} >N</Text>
+          <Text style={style.headerTableCell.row} >Weight</Text>
+          <Text style={style.headerTableCell.row} >Repeats</Text>
         </View>
         {sets && sets.map((s,i) => {
           return (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-            <Text style={{width: 50}} >{i+1}</Text>
-            <Text style={{width: 50}} >{s.weight}</Text>
-            <Text style={{width: 50}} >{s.repeats}</Text>
+          <View style={style.tableCell}>
+            <Text style={style.tableCell.row} >{i+1}</Text>
+            <Text style={style.tableCell.row} >{s.weight}</Text>
+            <Text style={style.tableCell.row} >{s.repeats}</Text>
           </View>
           )
         })}
@@ -70,8 +67,7 @@ export default class Training extends React.Component {
       <View>
         <View style={{maxHeight: 350}}>
           <ScrollView>
-            <Text>{moment(date).format("DD:MM:YYYY")}</Text>
-            <Text>Exercises:</Text>
+            <Subheader text={moment(date).format("DD:MM:YYYY")} />
               <ListView
                 dataSource={this.state.ds}
                 renderRow={this.renderRow}
@@ -79,9 +75,10 @@ export default class Training extends React.Component {
               </ListView>
           </ScrollView>
         </View>
-        <TouchableHighlight onPress={ this.goBack }>
-          <Text>Go back</Text>
-        </TouchableHighlight>
+
+        <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
+          go back
+        </Icon.Button>
       </View>
     );
   }
