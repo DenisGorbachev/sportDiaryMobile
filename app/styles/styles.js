@@ -88,6 +88,18 @@ const style = {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+  },
+
+  datePicker: {
+    dateIcon: {
+      position: 'absolute',
+      left: 0,
+      top: 4,
+      marginLeft: 0
+    },
+    dateInput: {
+      marginLeft: 36
+    },
   }
 
 };

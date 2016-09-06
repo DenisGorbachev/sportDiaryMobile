@@ -101,7 +101,7 @@ class NewPeriod extends React.Component {
         <Text style={style.newExerciseColl.name}>{ex}</Text>
         <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
           <Text style={style.newExerciseColl.remove} >
-            remove
+            <Icon name="delete" size={20} color="red" />
           </Text>
         </TouchableHighlight>
       </View>
@@ -148,17 +148,7 @@ class NewPeriod extends React.Component {
             maxDate="2018-06-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              },
-            }}
+            customStyles={style.datePicker}
             onDateChange={this.changeStart}
           />
           <Text>Period ends at: </Text>
@@ -171,17 +161,7 @@ class NewPeriod extends React.Component {
             maxDate="2018-06-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              },
-            }}
+            customStyles={style.datePicker}
             onDateChange={this.changeEnding}
           />
           <Text>
