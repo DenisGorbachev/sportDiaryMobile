@@ -14,6 +14,13 @@ import DatePicker from 'react-native-datepicker';
 import { _ } from 'underscore-node';
 import Meteor from 'react-native-meteor';
 import moment from 'momentjs'
+
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+
+
 class NewPeriod extends React.Component {
   constructor(props) {
     super(props);
@@ -90,10 +97,10 @@ class NewPeriod extends React.Component {
 
   renderRow(ex) {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}} >
-        <Text style={{width:100}}>{ex}</Text>
+      <View style={style.newExerciseColl} >
+        <Text style={style.newExerciseColl.name}>{ex}</Text>
         <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
-          <Text style={{color: 'red'}} >
+          <Text style={style.newExerciseColl.remove} >
             remove
           </Text>
         </TouchableHighlight>
@@ -182,7 +189,7 @@ class NewPeriod extends React.Component {
           </Text>
           <TextInput
             ref="newExercise"
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            style={style.textInput}
             onChangeText={this.saveTempExercise}
             value={this.state.newExercise}
           />
@@ -197,19 +204,22 @@ class NewPeriod extends React.Component {
             </ScrollView>
           </View>
 
-          <TouchableHighlight onPress={this.addExercise} >
-            <Text style={{marginTop:20}} >add exercise</Text>
-          </TouchableHighlight>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
-            <TouchableHighlight onPress={this.savePeriod} >
-              <Text style={{marginTop:20}} >Save Period</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={this.goBack} >
-              <Text style={{marginTop:20}} >Go back</Text>
-            </TouchableHighlight>
+          <View style={style.saveBtn} >
+            <Icon.Button name="add" {...style.btnStyle} onPress={this.addExercise}>
+              add exercise
+            </Icon.Button>
           </View>
 
+          <View style={style.margin} >
+            <Icon.Button name="save" {...style.btnStyle} onPress={this.savePeriod}>
+              Save Period
+            </Icon.Button>
+          </View>
+          <View style={style.margin}>
+            <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
+              go back
+            </Icon.Button>
+          </View>
         </View>
       </View>
     );

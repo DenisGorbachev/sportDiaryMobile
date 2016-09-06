@@ -50,6 +50,44 @@ const style = {
       width: 60,
       color: '#eff3f9',
     }
+  },
+
+  newExerciseColl: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    backgroundColor: '#CBF3AD',
+    marginTop: 2,
+    marginBottom: 2,
+    paddingTop: 3,
+    paddingBottom: 3,
+    row: {
+      fontSize: 16,
+    },
+    name: {
+      width: 100
+    },
+    remove: {
+      color: 'red',
+    }
+  },
+
+  margin: {
+    marginTop: 2,
+    marginBottom: 2,
+  },
+
+  saveBtn: {
+    width: 200,
+    display: 'block',
+    marginTop: 4,
+    marginBottom: 4,
+  },
+
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
   }
 
 };
