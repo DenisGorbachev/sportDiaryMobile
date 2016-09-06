@@ -12,6 +12,14 @@ import moment from 'momentjs';
 import Training from '../../components/training/training.js';
 import CreateTraining from '../../components/training/create-training.js';
 
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+
+
+
 export default class Period extends React.Component {
   constructor(props) {
     super(props);
@@ -60,11 +68,13 @@ export default class Period extends React.Component {
       this.openTraining(training)
     }).bind(this)
     return (
-      <TouchableHighlight onPress={callback} >
-        <Text style={{marginTop: 10}} >
-          {moment(date).format("DD:MM:YYYY")}
-        </Text>
-      </TouchableHighlight>
+      <View {...style.listItemStyle} >
+        <Icon.Button name="label-outline" {...style.listItemTextStyle} onPress={callback}>
+          <Text style={style.listItemColor} >
+            {moment(date).format("DD:MM:YYYY")}
+          </Text>
+        </Icon.Button>
+      </View>
     )
   }
 
@@ -75,9 +85,13 @@ export default class Period extends React.Component {
         <Text>
           trainings: { trainings.length }
         </Text>
-        <TouchableHighlight onPress={this.createTraining} >
-          <Text>create training</Text>
-        </TouchableHighlight>
+
+        <Icon.Button name="mode-edit" {...style.btnStyle} onPress={this.createTraining}>
+          create training
+        </Icon.Button>
+
+        <Subheader text="Training list"/>
+
         <View style={{maxHeight: 300}} >
           <ScrollView>
             <ListView
@@ -87,11 +101,10 @@ export default class Period extends React.Component {
             </ListView>
           </ScrollView>
         </View>
-        <TouchableHighlight onPress={this.goBack} >
-          <Text>
-            go Back
-          </Text>
-        </TouchableHighlight>
+
+        <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
+          go back
+        </Icon.Button>
       </View>
     )
   }
