@@ -1,4 +1,4 @@
-# sportDiaryMobile id app for noting your working out activities.
+# sportDiaryMobile app for noting your working out activities.
 To run the app you should have react-native installed and go through following steps:
 - 1. clone repository (git clone https://github.com/keenethics/sportDiaryMobile.git)
 - 2. run `npm install` in the app root
