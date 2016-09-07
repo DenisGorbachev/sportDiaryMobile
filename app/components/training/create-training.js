@@ -80,7 +80,6 @@ export default class CreateTraining extends React.Component {
     };
     Meteor.call('trainings.insert', training, (err) => {
       if (err) {
-        console.error(training)
         this.setState({ error: err.reason });
       } else {
         this.goBack();
