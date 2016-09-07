@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import Sign from './components/signin/sign.js';
 import Periods from './layouts/periodsLayout/periods.js'
 
-Meteor.connect('ws://192.168.31.22:3000/websocket', { autoReconnect: true })
+Meteor.connect('ws://sportdiary.herokuapp.com/websocket', { autoReconnect: true })
 
 class App extends React.Component {
     constructor(props) {
