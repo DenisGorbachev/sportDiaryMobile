@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Image,
-  Text, Navigator,
+  Text,
+  Navigator,
   TouchableHighlight,
   View,
   ListView,
