@@ -19,11 +19,19 @@ import DropDown, {
 } from 'react-native-selectme';
 
 import DatePicker from 'react-native-datepicker';
-
 import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
 import Meteor from 'react-native-meteor';
 import { _ } from 'underscore';
+
+
+
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+
 export default class CreateTraining extends React.Component {
   constructor(props) {
     super(props);
@@ -173,7 +181,7 @@ export default class CreateTraining extends React.Component {
          <View style={{marginTop: 22}}>
          {error && <Text style={{color: 'red'}} >{error}</Text>}
           <View>
-            <Text>Period starts at: </Text>
+            <Text>Date: </Text>
             <DatePicker style={{width: 200}}
               date={(ex && ex.date) || date}
               mode="date"
@@ -201,20 +209,21 @@ export default class CreateTraining extends React.Component {
 
           <View>
               <Text>edit:</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                <Text style={{width: 50}} >N</Text>
-                <Text style={{width: 50}} >Weight</Text>
-                <Text style={{width: 50}} >Repeats</Text>
+              <View style={style.headerTableCell}>
+                <Text style={style.headerTableCell.row} >N</Text>
+                <Text style={style.headerTableCell.row} >Weight</Text>
+                <Text style={style.headerTableCell.row} >Repeats</Text>
               </View>
               <View style={{maxHeight: 150}} >
                 <ScrollView>
                   {ex.sets && ex.sets.map( (s,index) => (
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                      <Text style={{width: 50}} >{index+1}</Text>
-                      <Text style={{width: 50}} >{s.weight}</Text>
-                      <Text style={{width: 50}} >{s.repeats}</Text>
+                    <View style={style.tableCell}>
+                      <Text style={style.tableCell.row} >{index+1}</Text>
+                      <Text style={style.tableCell.row} >{s.weight}</Text>
+                      <Text style={style.tableCell.row} >{s.repeats}</Text>
                     </View>
                   ))}
+
                 </ScrollView>
               </View>
 
@@ -231,25 +240,33 @@ export default class CreateTraining extends React.Component {
                   onChangeText={this.setRepeats}
                   ref={component => this._repeatsInput = component}
                 />
-                <TouchableHighlight onPress={this.addSetToEditingExercise} >
-                  <Text>
+
+                <View style={style.saveBtn} >
+                  <Icon.Button name="add" {...style.btnStyle} onPress={this.addSetToEditingExercise}>
                     add
-                  </Text>
-                </TouchableHighlight>
+                  </Icon.Button>
+                </View>
+
+
+
+              </View>
+
+
+              <View style={style.margin} >
+                <Icon.Button name="save" {...style.btnStyle} onPress={this.saveExercise}>
+                  Save...
+                </Icon.Button>
               </View>
 
 
 
-              <TouchableHighlight onPress={this.saveExercise}>
-                <Text>save...</Text>
-              </TouchableHighlight>
-
-
-              <TouchableHighlight onPress={() => {
+              <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={() => {
                 this.setModalVisible(!this.state.modalVisible)
               }}>
-                <Text>Back</Text>
-              </TouchableHighlight>
+                go back
+              </Icon.Button>
+
+
 
           </View>
          </View>
@@ -272,7 +289,7 @@ export default class CreateTraining extends React.Component {
     const items = _.difference(exercises, selectedExercises );
     return (
       <View>
-          <Text>Create Training:</Text>
+          <Text>Edit exercise:</Text>
           {error && <Text style={{color: 'red'}} >{error}</Text>}
           {items.length ?
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -295,15 +312,17 @@ export default class CreateTraining extends React.Component {
             <ScrollView>
               <Text>Selected Exersices:</Text>
               {selectedExercises.map( (ex, index) => (
-                <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-                  <TouchableHighlight>
-                    <Text style={{width: 100}}>{ex}</Text>
+                <View style={style.newExerciseColl} >
+                  <Text style={style.newExerciseColl.name}>{ex}</Text>
+                  <TouchableHighlight onPress={this.editExercise.bind(this, index)}>
+                    <Text style={style.newExerciseColl.remove} >
+                      <Icon name="border-color" size={20} color="green" />
+                    </Text>
                   </TouchableHighlight>
-                  <TouchableHighlight onPress={this.editExercise.bind(this, index)} >
-                    <Text style={{color: 'green'}} >edit</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight onPress={this.removeExercise.bind(this, ex)} >
-                    <Text style={{color: 'red'}} >remove</Text>
+                  <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
+                    <Text style={this.removeExercise.bind(this, ex)} >
+                      <Icon name="delete" size={20} color="red" />
+                    </Text>
                   </TouchableHighlight>
                 </View>
               ))}
@@ -312,12 +331,14 @@ export default class CreateTraining extends React.Component {
 
           {modalVisible && this.renderEditModal()}
 
-          <TouchableHighlight onPress={ this.save }>
-            <Text>Save</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={ this.goBack }>
-            <Text>Go back</Text>
-          </TouchableHighlight>
+          <View style={style.margin} >
+            <Icon.Button name="save" {...style.btnStyle} onPress={this.save}>
+              Save
+            </Icon.Button>
+          </View>
+          <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
+              go back
+          </Icon.Button>
       </View>
     );
   }
