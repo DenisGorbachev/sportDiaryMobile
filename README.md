@@ -6,7 +6,7 @@ To run the app you should have react-native installed and go through following s
 - 4. `react-native run-android`
 - 5. `react-native start`
 
-for more information please visit official react-native gerring started tutorial
+for more information please visit official react-native getting started tutorial
 [https://facebook.github.io/react-native/docs/getting-started.html]
 
 
