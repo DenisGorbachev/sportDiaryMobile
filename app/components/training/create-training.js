@@ -28,7 +28,6 @@ import { _ } from 'underscore';
 
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
@@ -224,15 +223,15 @@ export default class CreateTraining extends React.Component {
 
                 </ScrollView>
               </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
+              <View style={style.exForm} >
                 <TextInput
-                  style={{height: 40, width: 100}}
+                  style={style.exInput}
                   placeholder="enter weight"
                   onChangeText={this.setWeight}
                   ref={component => this._weightInput = component}
                 />
                 <TextInput
-                  style={{height: 40, width: 100}}
+                  style={style.exInput}
                   placeholder="enter repeats"
                   onChangeText={this.setRepeats}
                   ref={component => this._repeatsInput = component}

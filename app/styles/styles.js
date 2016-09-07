@@ -95,10 +95,15 @@ const style = {
       position: 'absolute',
       left: 0,
       top: 4,
-      marginLeft: 0
+      marginLeft: 0,
+      backgroundColor: '#303030',
     },
+
+    dateTouchBody: {
+    },
+
     dateInput: {
-      marginLeft: 36
+      marginLeft: 36,
     },
   },
 
@@ -112,6 +117,17 @@ const style = {
     borderRadius: 5,
     color: 'white',
     padding: 3,
+  },
+
+  exInput: {
+    height: 40,
+    width: 100,
+  },
+
+  exForm: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10
   }
 
 };
