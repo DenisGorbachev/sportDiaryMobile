@@ -117,21 +117,13 @@ class NewPeriod extends React.Component {
   }
 
   render() {
-    const btnStyle = {
-      backgroundColor: "black",
-      border: "none",
-      color: "white",
-      textAlign: "center",
-      textDecoration: "none",
-      display: "inline-block",
-    }
     const { error } = this.state;
     return (
       <View>
         <Text>New Period</Text>
         <View>
           {error &&
-            <Text style={{color: 'red'}}>
+            <Text style={style.error}>
               {error}
             </Text>
           }

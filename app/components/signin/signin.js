@@ -8,6 +8,10 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import style from '../../styles/styles.js';
+import { Subheader } from 'react-native-material-design';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import Signup from './signup.js';
 class Signin extends React.Component {
   constructor(props) {
@@ -47,21 +51,16 @@ class Signin extends React.Component {
   }
 
   render() {
-    const style= {
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1
-    }
     const { error } = this.state;
     return (
       <View>
         <Text style={{fontSize: 20}} >Signin:</Text>
-        {error? <Text>{error}</Text> : null}
+        {error? <Text style={style.error}>{error}</Text> : null}
           <Text>
             Enter email
           </Text>
           <TextInput
-            style={style}
+            style={style.textInput}
             onChangeText={this.setEmail}
             value={this.state.text}
           />
@@ -69,19 +68,22 @@ class Signin extends React.Component {
             Enter password
           </Text>
           <TextInput
-            style={style}
+            style={style.textInput}
             onChangeText={this.setPassword}
             value={this.state.text}
           />
-          <TouchableHighlight onPress={this._onPressButton}>
-            <Text> Submit </Text>
-          </TouchableHighlight>
 
+          <View style={style.saveBtn} >
+            <Icon.Button name="done" {...style.btnStyle} onPress={this._onPressButton}>
+              submit
+            </Icon.Button>
+          </View>
 
-          <TouchableHighlight onPress={this.signup}>
-            <Text> signup </Text>
-          </TouchableHighlight>
-
+          <View style={style.saveBtn} >
+            <Icon.Button name="account-box" {...style.btnStyle} onPress={this.signup}>
+              signup
+            </Icon.Button>
+          </View>
 
           {Meteor.user() ? <Text>Meteor.userId()</Text>: null}
       </View>

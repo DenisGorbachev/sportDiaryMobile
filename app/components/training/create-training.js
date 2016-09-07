@@ -205,8 +205,6 @@ export default class CreateTraining extends React.Component {
               onDateChange={this.changeDate}
             />
           </View>
-
-
           <View>
               <Text>edit:</Text>
               <View style={style.headerTableCell}>
@@ -226,7 +224,6 @@ export default class CreateTraining extends React.Component {
 
                 </ScrollView>
               </View>
-
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }} >
                 <TextInput
                   style={{height: 40, width: 100}}
@@ -240,26 +237,17 @@ export default class CreateTraining extends React.Component {
                   onChangeText={this.setRepeats}
                   ref={component => this._repeatsInput = component}
                 />
-
                 <View style={style.saveBtn} >
                   <Icon.Button name="add" {...style.btnStyle} onPress={this.addSetToEditingExercise}>
                     add
                   </Icon.Button>
                 </View>
-
-
-
               </View>
-
-
               <View style={style.margin} >
                 <Icon.Button name="save" {...style.btnStyle} onPress={this.saveExercise}>
                   Save...
                 </Icon.Button>
               </View>
-
-
-
               <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={() => {
                 this.setModalVisible(!this.state.modalVisible)
               }}>

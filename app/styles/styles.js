@@ -100,6 +100,18 @@ const style = {
     dateInput: {
       marginLeft: 36
     },
+  },
+
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1
+  },
+  error: {
+    backgroundColor: '#ff3232',
+    borderRadius: 5,
+    color: 'white',
+    padding: 3,
   }
 
 };
