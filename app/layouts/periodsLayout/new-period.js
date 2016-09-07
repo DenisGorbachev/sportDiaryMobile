@@ -14,17 +14,15 @@ import DatePicker from 'react-native-datepicker';
 import { _ } from 'underscore-node';
 import Meteor from 'react-native-meteor';
 import moment from 'momentjs'
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { dateSettings } from '../../config/settings.js';
 
-
-
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class NewPeriod extends React.Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       exercises: [],
       ds: ds.cloneWithRows([]),
@@ -128,31 +126,18 @@ class NewPeriod extends React.Component {
             </Text>
           }
         </View>
-
         <View>
           <Text>Period starts at: </Text>
           <DatePicker style={{width: 200}}
             date={this.state.startsAt}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2016-05-01"
-            maxDate="2018-06-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
+            {...dateSettings}
             customStyles={style.datePicker}
             onDateChange={this.changeStart}
           />
           <Text>Period ends at: </Text>
           <DatePicker style={{width: 200}}
             date={this.state.endsAt}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="2016-05-01"
-            maxDate="2018-06-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
+            {...dateSettings}
             customStyles={style.datePicker}
             onDateChange={this.changeEnding}
           />
@@ -165,7 +150,6 @@ class NewPeriod extends React.Component {
             onChangeText={this.saveTempExercise}
             value={this.state.newExercise}
           />
-
           <View style={{maxHeight: 100}} >
             <ScrollView>
               <ListView
@@ -175,13 +159,11 @@ class NewPeriod extends React.Component {
               </ListView>
             </ScrollView>
           </View>
-
           <View style={style.saveBtn} >
             <Icon.Button name="add" {...style.btnStyle} onPress={this.addExercise}>
               add exercise
             </Icon.Button>
           </View>
-
           <View style={style.margin} >
             <Icon.Button name="save" {...style.btnStyle} onPress={this.savePeriod}>
               Save Period

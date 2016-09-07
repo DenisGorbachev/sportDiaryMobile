@@ -11,20 +11,15 @@ import {
 import moment from 'momentjs';
 import Training from '../../components/training/training.js';
 import CreateTraining from '../../components/training/create-training.js';
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-
-
-
+let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 export default class Period extends React.Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       ds: ds.cloneWithRows(props.trainings || [])
     }
@@ -39,7 +34,7 @@ export default class Period extends React.Component {
     this.props.navigator.push({
       component: CreateTraining,
       passProps: { exercises, _id }
-    })
+    });
   }
 
   goBack() {
@@ -53,14 +48,12 @@ export default class Period extends React.Component {
     });
   }
 
-
   openTraining(training) {
     this.props.navigator.push({
       component: Training,
       passProps: training,
-    })
+    });
   }
-
 
   renderRow(training) {
     const { date } = training;
@@ -85,13 +78,10 @@ export default class Period extends React.Component {
         <Text>
           trainings: { trainings.length }
         </Text>
-
         <Icon.Button name="mode-edit" {...style.btnStyle} onPress={this.createTraining}>
           create training
         </Icon.Button>
-
         <Subheader text="Training list"/>
-
         <View style={{maxHeight: 300}} >
           <ScrollView>
             <ListView
@@ -101,7 +91,6 @@ export default class Period extends React.Component {
             </ListView>
           </ScrollView>
         </View>
-
         <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
           go back
         </Icon.Button>
@@ -109,4 +98,3 @@ export default class Period extends React.Component {
     )
   }
 }
-

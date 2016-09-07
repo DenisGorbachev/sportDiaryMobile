@@ -24,7 +24,7 @@ import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
 import Meteor from 'react-native-meteor';
 import { _ } from 'underscore';
-
+import { dateSettings } from '../../config/settings.js';
 
 
 import style from '../../styles/styles.js';
@@ -69,7 +69,7 @@ export default class CreateTraining extends React.Component {
   }
 
   changeDate(date) {
-    this.setState({ date, exercises });
+    this.setState({ date: new Date(date) });
   }
 
   save() {
@@ -177,34 +177,18 @@ export default class CreateTraining extends React.Component {
           visible={this.state.modalVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
-         <View style={{marginTop: 22}}>
-         {error && <Text style={{color: 'red'}} >{error}</Text>}
-          <View>
-            <Text>Date: </Text>
-            <DatePicker style={{width: 200}}
-              date={(ex && ex.date) || date}
-              mode="date"
-              placeholder="select date"
-              format="YYYY-MM-DD"
-              minDate="2016-05-01"
-              maxDate="2018-06-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0
-                },
-                dateInput: {
-                  marginLeft: 36
-                },
-              }}
-              onDateChange={this.changeDate}
-            />
-          </View>
-          <View>
+          <View style={{marginTop: 22}}>
+            {error && <Text style={{color: 'red'}} >{error}</Text>}
+            <View>
+              <Text>Date: </Text>
+              <DatePicker style={{width: 200}}
+                date={this.state.date}
+                {...dateSettings}
+                customStyles={style.datePicker}
+                onDateChange={this.changeDate}
+              />
+            </View>
+            <View>
               <Text>edit:</Text>
               <View style={style.headerTableCell}>
                 <Text style={style.headerTableCell.row} >N</Text>
@@ -220,7 +204,6 @@ export default class CreateTraining extends React.Component {
                       <Text style={style.tableCell.row} >{s.repeats}</Text>
                     </View>
                   ))}
-
                 </ScrollView>
               </View>
               <View style={style.exForm} >
@@ -252,19 +235,14 @@ export default class CreateTraining extends React.Component {
               }}>
                 go back
               </Icon.Button>
-
-
-
+            </View>
           </View>
-         </View>
         </Modal>
-
         <TouchableHighlight onPress={() => {
           this.setModalVisible(true)
         }}>
           <Text>Show Modal</Text>
         </TouchableHighlight>
-
       </View>
     )
   }
@@ -276,58 +254,55 @@ export default class CreateTraining extends React.Component {
     const items = _.difference(exercises, selectedExercises );
     return (
       <View>
-          <Text>Edit exercise:</Text>
-          {error && <Text style={{color: 'red'}} >{error}</Text>}
-          {items.length ?
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Select
-                  width={250}
-                  ref="SELECT1"
-                  optionListRef={this._getOptionList}
-                  defaultValue="Select Exersice ..."
-                  onSelect={this.selectExercise.bind(this)}>
-                  {items.map(item => (
-                    <Option>{item}</Option>
-                  ))}
-                </Select>
-
-                <OptionList ref="OPTIONLIST"/>
-            </View>
-            : null
-          }
-          <View style={{maxHeight: 250}}>
-            <ScrollView>
-              <Text>Selected Exersices:</Text>
-              {selectedExercises.map( (ex, index) => (
-                <View style={style.newExerciseColl} >
-                  <Text style={style.newExerciseColl.name}>{ex}</Text>
-                  <TouchableHighlight onPress={this.editExercise.bind(this, index)}>
-                    <Text style={style.newExerciseColl.remove} >
-                      <Icon name="border-color" size={20} color="green" />
-                    </Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
-                    <Text style={this.removeExercise.bind(this, ex)} >
-                      <Icon name="delete" size={20} color="red" />
-                    </Text>
-                  </TouchableHighlight>
-                </View>
+        <Text>Edit exercise:</Text>
+        {error && <Text style={{color: 'red'}} >{error}</Text>}
+        {items.length ?
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Select
+              width={250}
+              ref="SELECT1"
+              optionListRef={this._getOptionList}
+              defaultValue="Select Exersice ..."
+              onSelect={this.selectExercise.bind(this)}>
+              {items.map(item => (
+                <Option>{item}</Option>
               ))}
-            </ScrollView>
-          </View>
+            </Select>
 
-          {modalVisible && this.renderEditModal()}
-
-          <View style={style.margin} >
-            <Icon.Button name="save" {...style.btnStyle} onPress={this.save}>
-              Save
-            </Icon.Button>
+            <OptionList ref="OPTIONLIST"/>
           </View>
-          <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
-              go back
+          : null
+        }
+        <View style={{maxHeight: 250}}>
+          <ScrollView>
+            <Text>Selected Exersices:</Text>
+            {selectedExercises.map( (ex, index) => (
+              <View style={style.newExerciseColl} >
+                <Text style={style.newExerciseColl.name}>{ex}</Text>
+                <TouchableHighlight onPress={this.editExercise.bind(this, index)}>
+                  <Text style={style.newExerciseColl.remove} >
+                    <Icon name="border-color" size={20} color="green" />
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={this.removeExercise.bind(null, ex)}>
+                  <Text style={this.removeExercise.bind(this, ex)} >
+                    <Icon name="delete" size={20} color="red" />
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+        {modalVisible && this.renderEditModal()}
+        <View style={style.margin} >
+          <Icon.Button name="save" {...style.btnStyle} onPress={this.save}>
+            Save
           </Icon.Button>
+        </View>
+        <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
+            go back
+        </Icon.Button>
       </View>
     );
   }
 }
-

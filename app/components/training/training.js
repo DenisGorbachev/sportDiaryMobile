@@ -10,16 +10,15 @@ import {
 } from 'react-native';
 import moment from 'momentjs';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Training extends React.Component {
   constructor(props) {
     super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       ds: ds.cloneWithRows(props.exercises && props.exercises || [])
     }
@@ -76,7 +75,6 @@ export default class Training extends React.Component {
               </ListView>
           </ScrollView>
         </View>
-
         <Icon.Button name="keyboard-arrow-left" {...style.btnStyle} onPress={this.goBack}>
           go back
         </Icon.Button>
@@ -84,4 +82,3 @@ export default class Training extends React.Component {
     );
   }
 }
-

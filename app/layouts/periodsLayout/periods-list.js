@@ -13,16 +13,15 @@ import  Meteor, { createContainer } from 'react-native-meteor';
 import TabNavigator from 'react-native-tab-navigator';
 import NewPeriod from './new-period.js';
 import PeriodContainer from './period-container.js';
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class PeriodsList extends React.Component {
   constructor(props) {
     super(props);
     this._navigate = this._navigate.bind(this);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       ds: ds.cloneWithRows(props.periods || [])
     }
@@ -38,7 +37,6 @@ class PeriodsList extends React.Component {
     });
   }
 
-
   logout() {
     Meteor.logout();
   }
@@ -53,7 +51,6 @@ class PeriodsList extends React.Component {
       passProps: p,
     })
   }
-
 
   renderRow(p) {
     return (
@@ -89,8 +86,6 @@ class PeriodsList extends React.Component {
           Create New Period
         </Icon.Button>
       </View>
-
-
     );
   }
 }
@@ -99,7 +94,6 @@ export default createContainer(() => {
   const userId = Meteor.userId();
   const periodsHandle = Meteor.subscribe('periodsByUser', userId);
   const periods = periodsHandle.ready() ? Meteor.collection('periods').find({}) : []
-
   return {
     periods
   };

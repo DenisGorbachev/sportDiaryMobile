@@ -7,12 +7,11 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import Signup from './signup.js';
+
 class Signin extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +39,7 @@ class Signin extends React.Component {
   _onPressButton() {
     const { email, password } = this.state;
     if (!email || !password){
-      return this.setState({error: 'Invalid data...'});
+      return this.setState({ error: 'Invalid data...' });
     }
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
@@ -72,19 +71,16 @@ class Signin extends React.Component {
             onChangeText={this.setPassword}
             value={this.state.text}
           />
-
           <View style={style.saveBtn} >
             <Icon.Button name="done" {...style.btnStyle} onPress={this._onPressButton}>
               submit
             </Icon.Button>
           </View>
-
           <View style={style.saveBtn} >
             <Icon.Button name="account-box" {...style.btnStyle} onPress={this.signup}>
               signup
             </Icon.Button>
           </View>
-
           {Meteor.user() ? <Text>Meteor.userId()</Text>: null}
       </View>
     );

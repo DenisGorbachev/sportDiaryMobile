@@ -8,4 +8,12 @@ export const settings = {
   METEOR_URL,
 };
 
-export default settings;
+export const dateSettings = {
+  format: 'YYYY-MM-DD',
+  minDate: '2016-05-01',
+  maxDate: '2018-06-01',
+  confirmBtnText:'Confirm',
+  cancelBtnText: 'Cancel',
+  mode: 'date',
+  placeholder: 'select date',
+}

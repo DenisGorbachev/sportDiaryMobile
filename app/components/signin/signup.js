@@ -8,7 +8,6 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
-
 import style from '../../styles/styles.js';
 import { Subheader } from 'react-native-material-design';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,7 +25,7 @@ class Signup extends React.Component {
   }
 
   signin() {
-    this.props.toggleSignin()
+    this.props.toggleSignin();
   }
 
   setEmail(email) {
@@ -73,22 +72,16 @@ class Signup extends React.Component {
             onChangeText={this.setPassword}
             value={this.state.text}
           />
-
           <View style={style.saveBtn} >
             <Icon.Button name="done" {...style.btnStyle} onPress={this._onPressButton}>
               submit
             </Icon.Button>
           </View>
-
           <View style={style.saveBtn} >
             <Icon.Button name="account-box" {...style.btnStyle} onPress={this.signin}>
               signin
             </Icon.Button>
           </View>
-
-
-
-          {Meteor.user() ? <Text>Meteor.userId()</Text>: null}
       </View>
     );
   }
